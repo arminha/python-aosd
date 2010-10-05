@@ -1,3 +1,8 @@
+#
+# python-aosd -- python bindings for libaosd
+#
+# Copyright (C) 2010 Armin Häberling <armin.aha@gmail.com>
+#
 
 #########################################
 # Extern C definitions

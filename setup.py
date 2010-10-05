@@ -21,8 +21,8 @@ def pkgconfig_include_dirs(*packages):
 setup (
     cmdclass = {'build_ext' : build_ext},
 
-    name = 'aosd',
-    version = '0.2.4',
+    name = 'python-aosd',
+    version = '0.1.0',
     ext_modules = [
         Extension(
             'aosd',
@@ -34,7 +34,14 @@ setup (
 
     author = 'Armin Häberling',
     author_email = 'armin.aha@gmail.com',
-
+    url = 'http://code.google.com/p/python-aosd/',
     description = 'Python bindings for libaosd',
-    long_description= 'This library provides a pure python wrapper for libaosd, an advanced on screen display library.',
+    long_description= 'This library provides python bindings for libaosd, an advanced on screen display library.',
+    classifiers = [
+        'Development Status :: 3 - Alpha',
+        'Environment :: X11 Applications',
+        'License :: OSI Approved :: MIT License',
+        'Operating System :: POSIX',
+        'Programming Language :: Python',
+    ],
 )
