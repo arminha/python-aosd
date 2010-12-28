@@ -11,7 +11,7 @@
 cdef extern from "aosd.h":
     ctypedef int Bool
 
-    struct cairo_t:
+    ctypedef struct cairo_t:
         pass
 
     struct XClassHint:
@@ -87,6 +87,20 @@ cdef extern from "aosd.h":
     void aosd_flash(c_Aosd* aosd, unsigned fade_in_ms,
         unsigned full_ms, unsigned fade_out_ms)
 
+cdef extern from "Python.h":
+    ctypedef struct PyObject:
+        pass
+
+    ctypedef struct PyTypeObject:
+        pass
+
+cdef extern from "pycairo.h":
+    ctypedef struct Pycairo_CAPI_t:
+        PyObject *(*Context_FromContext)(cairo_t *ctx, PyTypeObject *type, PyObject *base)
+        PyTypeObject *Context_Type
+
+    void* PyCObject_Import(char *module_name, char *cobject_name)
+
 
 cdef extern from "aosd-text.h":
     ctypedef unsigned char guint8
@@ -149,6 +163,10 @@ cdef extern from "aosd-text.h":
 # Python definitions
 #########################################
 
+# initialization of pycairo CAPI
+cdef Pycairo_CAPI_t *Pycairo_CAPI
+Pycairo_CAPI = <Pycairo_CAPI_t*>PyCObject_Import("cairo", "CAPI")
+
 COORDINATE_MINIMUM = c_COORDINATE_MINIMUM
 COORDINATE_CENTER = c_COORDINATE_CENTER
 COORDINATE_MAXIMUM = c_COORDINATE_MAXIMUM
@@ -160,9 +178,15 @@ TRANSPARENCY_COMPOSITE = c_TRANSPARENCY_COMPOSITE
 
 cdef class Aosd:
     cdef c_Aosd * _aosd
+    cdef readonly object _renderer
+    cdef readonly object _data
 
     def __cinit__(self):
         self._aosd = aosd_new()
+
+    def __init__(self):
+        self._renderer = None
+        self._data = None
 
     def __dealloc__(self):
         aosd_destroy(self._aosd)
@@ -197,6 +221,11 @@ cdef class Aosd:
         aosd_set_position_with_offset(self._aosd, <c_AosdCoordinate> abscissa, <c_AosdCoordinate> ordinate,
             width, height, x_offset, y_offset)
 
+    def set_renderer(self, object renderer, object data):
+        self._renderer = renderer
+        self._data = data
+        aosd_set_renderer(self._aosd, __render_callback, <void*>self)
+
     def set_hide_upon_mouse_event(self, Bool enable):
         aosd_set_hide_upon_mouse_event(self._aosd, enable)
 
@@ -220,6 +249,13 @@ cdef class Aosd:
 
     def flash(self, unsigned fade_in_ms, unsigned full_ms, unsigned fade_out_ms):
         aosd_flash(self._aosd, fade_in_ms, full_ms, fade_out_ms)
+
+cdef void __render_callback(cairo_t* cr, void* user_data):
+    aosd = <object>user_data
+    renderer = aosd._renderer
+    if renderer:
+        py_cairo_context = <object>Pycairo_CAPI.Context_FromContext(cr, Pycairo_CAPI.Context_Type, NULL)
+        renderer(py_cairo_context, aosd._data)
 
 def __convert_text(text):
     if isinstance(text, unicode): # most common case first

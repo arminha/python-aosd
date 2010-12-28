@@ -27,10 +27,11 @@ setup (
         Extension(
             'aosd',
             ['src/aosd.pyx'],
-            include_dirs= pkgconfig_include_dirs('pangocairo') + ['/usr/include/libaosd'],
+            include_dirs= pkgconfig_include_dirs('pangocairo') + ['/usr/include/libaosd', '/usr/include/pycairo'],
             libraries = ['aosd', 'aosd-text']
         )
     ],
+    requires = ['cairo'],
 
     author = 'Armin Häberling',
     author_email = 'armin.aha@gmail.com',
