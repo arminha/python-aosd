@@ -20,7 +20,7 @@ cdef extern from "aosd.h":
     ctypedef struct c_Aosd "Aosd":
         pass
 
-    struct AosdMouseEvent:
+    ctypedef struct c_AosdMouseEvent "AosdMouseEvent":
         # relative coordinates
         int x
         int y
@@ -46,7 +46,7 @@ cdef extern from "aosd.h":
 
     # various callbacks
     ctypedef void (*AosdRenderer)(cairo_t* cr, void* user_data)
-    ctypedef void (*AosdMouseEventCb)(AosdMouseEvent* event, void* user_data)
+    ctypedef void (*AosdMouseEventCb)(c_AosdMouseEvent* event, void* user_data)
 
     # object (de)allocators
     c_Aosd* aosd_new()
@@ -167,6 +167,7 @@ cdef extern from "aosd-text.h":
 cdef Pycairo_CAPI_t *Pycairo_CAPI
 Pycairo_CAPI = <Pycairo_CAPI_t*>PyCObject_Import("cairo", "CAPI")
 
+# constants
 COORDINATE_MINIMUM = c_COORDINATE_MINIMUM
 COORDINATE_CENTER = c_COORDINATE_CENTER
 COORDINATE_MAXIMUM = c_COORDINATE_MAXIMUM
@@ -180,6 +181,8 @@ cdef class Aosd:
     cdef c_Aosd * _aosd
     cdef readonly object _renderer
     cdef readonly object _data
+    cdef readonly object _mouse_callback
+    cdef readonly object _mouse_data
 
     def __cinit__(self):
         self._aosd = aosd_new()
@@ -187,6 +190,8 @@ cdef class Aosd:
     def __init__(self):
         self._renderer = None
         self._data = None
+        self._mouse_callback = None
+        self._mouse_data = None
 
     def __dealloc__(self):
         aosd_destroy(self._aosd)
@@ -226,6 +231,11 @@ cdef class Aosd:
         self._data = data
         aosd_set_renderer(self._aosd, __render_callback, <void*>self)
 
+    def set_mouse_event_callback(self, object callback, object data):
+        self._mouse_callback = callback
+        self._mouse_data = data
+        aosd_set_mouse_event_cb(self._aosd, __mouse_event_callback, <void*>self)
+
     def set_hide_upon_mouse_event(self, Bool enable):
         aosd_set_hide_upon_mouse_event(self._aosd, enable)
 
@@ -250,12 +260,43 @@ cdef class Aosd:
     def flash(self, unsigned fade_in_ms, unsigned full_ms, unsigned fade_out_ms):
         aosd_flash(self._aosd, fade_in_ms, full_ms, fade_out_ms)
 
+
 cdef void __render_callback(cairo_t* cr, void* user_data):
     aosd = <object>user_data
     renderer = aosd._renderer
-    if renderer:
+    if renderer is not None:
         py_cairo_context = <object>Pycairo_CAPI.Context_FromContext(cr, Pycairo_CAPI.Context_Type, NULL)
         renderer(py_cairo_context, aosd._data)
+
+
+cdef class AosdMouseEvent(object):
+    # coordinates relative to window
+    cdef readonly object coordinates
+    # coordinates relative to root window
+    cdef readonly object root_coordinates
+    # true if this came from a SendEvent request
+    cdef readonly object send_event
+    cdef readonly int button
+    # milliseconds (since X server was started??)
+    cdef readonly long time
+
+    def __init__(self, x, y, x_root, y_root, send_event, button, time):
+        self.coordinates = (x, y)
+        self.root_coordinates = (x_root, y_root)
+        self.send_event = bool(send_event)
+        self.button = button
+        self.time = time
+
+
+cdef void __mouse_event_callback(c_AosdMouseEvent* event, void* user_data):
+    aosd = <object>user_data
+    mouse_callback = aosd._mouse_callback
+    if mouse_callback is not None:
+        py_event = AosdMouseEvent(event.x, event.y,
+            event.x_root, event.y_root, event.send_event,
+            event.button, event.time)
+        mouse_callback(py_event, aosd._mouse_data)
+
 
 def __convert_text(text):
     if isinstance(text, unicode): # most common case first
@@ -266,6 +307,7 @@ def __convert_text(text):
     else:
         raise ValueError("requires text input, got %s" % type(text))
     return utf8_data
+
 
 cdef class AosdText(Aosd):
     cdef TextRenderData _rend

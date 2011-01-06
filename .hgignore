@@ -1,1 +1,4 @@
 glob:MANIFEST
+glob:build
+glob:src/aosd.c
+glob:dist
