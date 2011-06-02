@@ -101,7 +101,6 @@ cdef extern from "pycairo.h":
 
     void* PyCObject_Import(char *module_name, char *cobject_name)
 
-
 cdef extern from "aosd-text.h":
     ctypedef unsigned char guint8
     ctypedef signed char gint8
@@ -158,6 +157,26 @@ cdef extern from "aosd-text.h":
 
     void pango_layout_set_text(PangoLayout *layout, char *text, int length)
 
+    int aosd_text_get_screen_wrap_width(c_Aosd* aosd, TextRenderData* trd)
+
+cdef extern from "pango/pangocairo.h":
+    ctypedef enum c_PangoWrapMode "PangoWrapMode":
+        c_PANGO_WRAP_WORD "PANGO_WRAP_WORD",
+        c_PANGO_WRAP_CHAR "PANGO_WRAP_CHAR",
+        c_PANGO_WRAP_WORD_CHAR "PANGO_WRAP_WORD_CHAR"
+
+    ctypedef enum c_PangoAlignment "PangoAlignment":
+        c_PANGO_ALIGN_LEFT "PANGO_ALIGN_LEFT",
+        c_PANGO_ALIGN_CENTER "PANGO_ALIGN_CENTER",
+        c_PANGO_ALIGN_RIGHT "PANGO_ALIGN_RIGHT"
+
+    void pango_layout_set_wrap(PangoLayout* layout, c_PangoWrapMode wrap)
+    c_PangoWrapMode pango_layout_get_wrap(PangoLayout* layout)
+
+    void pango_layout_set_alignment(PangoLayout *layout, c_PangoAlignment alignment)
+    c_PangoAlignment pango_layout_get_alignment(PangoLayout *layout)
+
+    void pango_layout_set_width(PangoLayout *layout, int width)
 
 #########################################
 # Python definitions
@@ -309,6 +328,15 @@ def __convert_text(text):
     return utf8_data
 
 
+# constants for AosdText
+PANGO_WRAP_WORD = c_PANGO_WRAP_WORD
+PANGO_WRAP_CHAR = c_PANGO_WRAP_CHAR
+PANGO_WRAP_WORD_CHAR = c_PANGO_WRAP_WORD_CHAR
+
+PANGO_ALIGN_LEFT = c_PANGO_ALIGN_LEFT
+PANGO_ALIGN_CENTER = c_PANGO_ALIGN_CENTER,
+PANGO_ALIGN_RIGHT = c_PANGO_ALIGN_RIGHT
+
 cdef class AosdText(Aosd):
     cdef TextRenderData _rend
     cdef object _text
@@ -337,6 +365,26 @@ cdef class AosdText(Aosd):
     def set_font(self, font_desc):
         self._font_desc = __convert_text(font_desc)
         pango_layout_set_font_aosd(self._rend.lay, self._font_desc)
+
+    def set_layout_width(self, width):
+        pango_layout_set_width(self._rend.lay, width)
+
+    def get_screen_wrap_width(self):
+        return aosd_text_get_screen_wrap_width(self._aosd, &self._rend)
+
+    property wrap:
+        def __get__(self):
+            return pango_layout_get_wrap(self._rend.lay)
+
+        def __set__(self, value):
+            pango_layout_set_wrap(self._rend.lay, value)
+
+    property alignment:
+        def __get__(self):
+            return pango_layout_get_alignment(self._rend.lay)
+
+        def __set__(self, value):
+            pango_layout_set_alignment(self._rend.lay, value)
 
     property back_color:
         def __get__(self):
