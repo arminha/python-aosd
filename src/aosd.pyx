@@ -1,3 +1,4 @@
+#cython: embedsignature=True
 #
 # python-aosd -- python bindings for libaosd
 #
@@ -93,6 +94,8 @@ cdef extern from "Python.h":
 
     ctypedef struct PyTypeObject:
         pass
+
+        int PY_MAJOR_VERSION
 
 cdef extern from "pycairo.h":
     ctypedef struct Pycairo_CAPI_t:
@@ -320,7 +323,7 @@ cdef void __mouse_event_callback(c_AosdMouseEvent* event, void* user_data):
 def __convert_text(text):
     if isinstance(text, unicode): # most common case first
         utf8_data = text.encode('UTF-8')
-    elif isinstance(text, str):
+    elif (PY_MAJOR_VERSION < 3) and isinstance(text, str):
         text.decode('ASCII') # trial decoding, or however you want to check for plain ASCII data
         utf8_data = text
     else:
