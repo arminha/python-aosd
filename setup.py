@@ -17,7 +17,7 @@ def pkgconfig_include_dirs(*packages):
         kw.setdefault(flag_map.get(token[:2]), []).append(token[2:])
     return kw['include_dirs']
 
-package_version = '0.2.0'
+package_version = '0.2.1'
 
 setup (
     cmdclass = {'build_ext' : build_ext},
