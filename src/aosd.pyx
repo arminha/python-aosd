@@ -95,7 +95,7 @@ cdef extern from "Python.h":
     ctypedef struct PyTypeObject:
         pass
 
-        int PY_MAJOR_VERSION
+    int PY_MAJOR_VERSION
 
 cdef extern from "pycairo.h":
     ctypedef struct Pycairo_CAPI_t:
