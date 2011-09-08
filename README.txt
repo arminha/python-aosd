@@ -35,3 +35,12 @@ Running
 
 will install python-aosd.
 
+Changelog
+=========
+
+Version 0.2.2
+-------------
+
+  • move to git
+  • Bug Fix: fix indentation in aosd.pyx
+

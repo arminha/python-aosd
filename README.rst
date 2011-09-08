@@ -37,6 +37,14 @@ Running
 
 will install python-aosd.
 
+Changelog
+---------
+
+Version 0.2.2
+=============
+* move to git
+* Bug Fix: fix indentation in aosd.pyx
+
 
 .. _libaosd: http://atheme.org/project/libaosd
 .. _Pyrex: http://www.cosc.canterbury.ac.nz/greg.ewing/python/Pyrex
