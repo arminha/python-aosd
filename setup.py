@@ -41,7 +41,7 @@ setup (
     description = 'Python bindings for libaosd',
     long_description =
     '''
-    python-aosd is a Python binding for libaosd_ an on screen display (OSD) library, which uses Cairo to create high quality rendered graphics to be overlaid on top of the screen.
+    python-aosd is a Python binding for libaosd an on screen display (OSD) library, which uses Cairo to create high quality rendered graphics to be overlaid on top of the screen.
     ''',
     classifiers = [
         'Development Status :: 4 - Beta',
