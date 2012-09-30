@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# coding=utf8
 
 from distutils.core import setup
 from distutils.extension import Extension
@@ -34,7 +33,7 @@ setup (
     ],
     requires = ['cairo'],
 
-    author = 'Armin Häberling',
+    author = u'Armin H\u00e4berling',
     author_email = 'armin.aha@gmail.com',
     url = 'http://code.google.com/p/python-aosd/',
     download_url = 'http://python-aosd.googlecode.com/files/python-aosd-' + package_version + '.tar.gz',
@@ -48,6 +47,7 @@ setup (
         'Environment :: X11 Applications',
         'License :: OSI Approved :: MIT License',
         'Operating System :: POSIX',
+        'Programming Language :: Cython',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.6',
