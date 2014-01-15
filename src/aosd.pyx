@@ -2,7 +2,7 @@
 #
 # python-aosd -- python bindings for libaosd
 #
-# Copyright (C) 2010 Armin Häberling <armin.aha@gmail.com>
+# Copyright (C) 2010 - 2013 Armin Haeberling
 #
 
 #########################################
@@ -337,7 +337,7 @@ PANGO_WRAP_CHAR = c_PANGO_WRAP_CHAR
 PANGO_WRAP_WORD_CHAR = c_PANGO_WRAP_WORD_CHAR
 
 PANGO_ALIGN_LEFT = c_PANGO_ALIGN_LEFT
-PANGO_ALIGN_CENTER = c_PANGO_ALIGN_CENTER,
+PANGO_ALIGN_CENTER = c_PANGO_ALIGN_CENTER
 PANGO_ALIGN_RIGHT = c_PANGO_ALIGN_RIGHT
 
 cdef class AosdText(Aosd):
