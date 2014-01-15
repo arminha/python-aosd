@@ -40,6 +40,10 @@ will install python-aosd.
 Changelog
 ---------
 
+Version 0.2.3
+=============
+* Bug Fix: correct value of aosd.PANGO_ALIGN_CENTER
+
 Version 0.2.2
 =============
 * move to git
