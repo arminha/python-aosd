@@ -3,7 +3,7 @@
 #
 # python-aosd -- python bindings for libaosd
 #
-# Copyright (C) 2010 Armin Häberling <armin.aha@gmail.com>
+# Copyright (C) 2010 Armin Haeberling
 #
 # Based on the image example from libaosd.
 #
