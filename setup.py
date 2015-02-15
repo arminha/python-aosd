@@ -35,8 +35,8 @@ setup (
 
     author = u'Armin H\u00e4berling',
     author_email = 'armin.aha@gmail.com',
-    url = 'http://code.google.com/p/python-aosd/',
-    download_url = 'http://python-aosd.googlecode.com/files/python-aosd-' + package_version + '.tar.gz',
+    url = 'https://code.google.com/p/python-aosd/',
+    download_url = 'https://python-aosd.googlecode.com/archive/' + package_version + '.tar.gz',
     description = 'Python bindings for libaosd',
     long_description =
     '''
