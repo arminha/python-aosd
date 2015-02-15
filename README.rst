@@ -40,6 +40,10 @@ will install python-aosd.
 Changelog
 ---------
 
+Version 0.2.4
+=============
+* Replace command module in setup.py with subprocess
+
 Version 0.2.3
 =============
 * Bug Fix: correct value of aosd.PANGO_ALIGN_CENTER

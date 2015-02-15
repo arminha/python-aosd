@@ -7,16 +7,16 @@ try:
 except ImportError:
     from Pyrex.Distutils import build_ext
 
-import commands
+import subprocess
 
 def pkgconfig_include_dirs(*packages):
     flag_map = {'-I': 'include_dirs'}
     kw = {}
-    for token in commands.getoutput("pkg-config --cflags %s" % ' '.join(packages)).split():
+    for token in subprocess.check_output(['pkg-config', '--cflags'] + list(packages)).split():
         kw.setdefault(flag_map.get(token[:2]), []).append(token[2:])
     return kw['include_dirs']
 
-package_version = '0.2.3'
+package_version = '0.2.4'
 
 setup (
     cmdclass = {'build_ext' : build_ext},
