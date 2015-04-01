@@ -2,26 +2,26 @@
 python-aosd
 ===========
 
-python-aosd is a Python binding for libaosd_. An on screen display (OSD) library, which uses Cairo to create high quality rendered graphics to be overlaid on top of the screen.
+python-aosd is a Python binding for libaosd_: an on screen display (OSD) library, which uses Cairo to create high quality rendered graphics to be overlaid on top of the screen.
 
 Requirements
 ------------
 
 * Python > 2.6
-* libaosd_ (of course)
+* libaosd_
 * pycairo_
-* pangocairo
+* pangocairo_
 
 Build requirements
 ------------------
 
 * Pyrex_ or Cython_
-* headers for pycairo_, libaosd_ and pangocairo
+* headers for pycairo_, libaosd_ and pangocairo_
 
 Building
 --------
 
-python-aosd uses distutils_, so building it is as simple as running
+python-aosd uses distutils_. Building it is as simple as running
 
 ::
 
@@ -59,4 +59,4 @@ Version 0.2.2
 .. _Cython: http://cython.org
 .. _pycairo: http://cairographics.org/pycairo
 .. _distutils: http://docs.python.org/library/distutils.html
-
+.. _pangocairo: http://www.pango.org/
