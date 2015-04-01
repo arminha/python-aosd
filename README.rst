@@ -40,6 +40,10 @@ will install python-aosd.
 Changelog
 ---------
 
+Version 0.2.5
+=============
+* Move to GitHub
+
 Version 0.2.4
 =============
 * Replace command module in setup.py with subprocess
