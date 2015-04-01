@@ -35,12 +35,12 @@ setup (
 
     author = u'Armin H\u00e4berling',
     author_email = 'armin.aha@gmail.com',
-    url = 'https://code.google.com/p/python-aosd/',
-    download_url = 'https://python-aosd.googlecode.com/archive/' + package_version + '.tar.gz',
+    url = 'https://github.com/arminha/python-aosd',
+    download_url = 'https://github.com/arminha/python-aosd/archive/' + package_version + '.tar.gz',
     description = 'Python bindings for libaosd',
     long_description =
     '''
-    python-aosd is a Python binding for libaosd an on screen display (OSD) library, which uses Cairo to create high quality rendered graphics to be overlaid on top of the screen.
+    python-aosd is a Python binding for libaosd: an on screen display (OSD) library, which uses Cairo to create high quality rendered graphics to be overlaid on top of the screen.
     ''',
     classifiers = [
         'Development Status :: 4 - Beta',
