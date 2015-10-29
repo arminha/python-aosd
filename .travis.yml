@@ -1,0 +1,14 @@
+language: python
+python:
+  - 2.7
+
+before_install:
+  - uname -a
+  - free -m
+  - df -h
+  - ulimit -a
+  - python -V
+  - sudo apt-get install -qq cython libpango1.0-dev libaosd-dev python-all-dev python-cairo-dev
+
+script:
+  - python setup.py build_ext
