@@ -8,7 +8,10 @@ before_install:
   - df -h
   - ulimit -a
   - python -V
-  - sudo apt-get install -qq cython libpango1.0-dev libaosd-dev python-all-dev python-cairo-dev
+  - sudo apt-get install -qq libpango1.0-dev libaosd-dev python-all-dev python-cairo-dev
+
+install:
+  - pip install -q cython
 
 script:
   - python setup.py build_ext
