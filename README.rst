@@ -4,6 +4,9 @@ python-aosd
 
 python-aosd is a Python binding for libaosd_: an on screen display (OSD) library, which uses Cairo to create high quality rendered graphics to be overlaid on top of the screen.
 
+.. image:: https://travis-ci.org/arminha/python-aosd.svg?branch=master
+    :target: https://travis-ci.org/arminha/python-aosd
+
 Requirements
 ------------
 
