@@ -1,3 +1,4 @@
+include README.rst
 include LICENSE
 include *.html
 recursive-include examples *.py
