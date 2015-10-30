@@ -2,11 +2,18 @@ language: python
 python:
   - 2.7
 
-before_install:
-  - sudo apt-get install -qq libpango1.0-dev libaosd-dev python-all-dev python-cairo-dev
+addons:
+  apt:
+    packages:
+    - libpango1.0-dev
+    - libaosd-dev
+    - python-all-dev
+    - python-cairo-dev
 
 install:
   - pip install cython
 
 script:
   - python setup.py build_ext
+
+sudo: false
