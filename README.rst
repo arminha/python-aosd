@@ -61,7 +61,7 @@ Version 0.2.2
 * Bug Fix: fix indentation in aosd.pyx
 
 
-.. _libaosd: http://atheme.org/project/libaosd
+.. _libaosd: https://github.com/atheme-legacy/libaosd
 .. _Pyrex: http://www.cosc.canterbury.ac.nz/greg.ewing/python/Pyrex
 .. _Cython: http://cython.org
 .. _pycairo: http://cairographics.org/pycairo
