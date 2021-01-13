@@ -16,7 +16,7 @@ jobs:
     - name: Install native dependencies
       run: |
         sudo apt-get update -y
-        sudo apt-get install -y libpango1.0-dev libaosd-dev
+        sudo apt-get install -y libpango1.0-dev libaosd-dev python-cairo-dev
 
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
